@@ -248,10 +248,12 @@ function Header({
   index,
   total,
   firstTryCorrect,
+  name,
 }: {
   index: number;
   total: number;
   firstTryCorrect: number;
+  name?: string;
 }) {
   const pct = (index / total) * 100;
   return (
@@ -260,9 +262,11 @@ function Header({
         <TamaraLogo className="h-9 w-9 shrink-0" />
         <div className="min-w-0">
           <p className="truncate text-base font-black text-foreground sm:text-lg">
-            تحدي خدمة العملاء
+            تحدي السوشال ميديا
           </p>
-          <p className="truncate text-xs text-muted-foreground">تدريب تفاعلي — تمارا</p>
+          <p className="truncate text-xs text-muted-foreground">
+            {name ? `أهلاً ${name} — تمارا` : "تدريب تفاعلي — تمارا"}
+          </p>
         </div>
       </div>
       <div className="col-span-2 sm:col-auto sm:min-w-[260px]">
@@ -283,7 +287,9 @@ function Header({
   );
 }
 
-function Welcome({ onStart }: { onStart: () => void }) {
+function Welcome({ onStart }: { onStart: (name: string) => void }) {
+  const [name, setName] = useState("");
+  const trimmed = name.trim();
   return (
     <main
       className="relative grid min-h-screen place-items-center overflow-hidden px-4"
@@ -306,10 +312,10 @@ function Welcome({ onStart }: { onStart: () => void }) {
           <span className="text-2xl font-black tracking-tight text-foreground">tamara.</span>
         </div>
         <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
-          تدريب فريق خدمة العملاء
+          تدريب فريق السوشال ميديا
         </span>
         <h1 className="mt-4 text-3xl sm:text-4xl font-black leading-tight text-foreground">
-          تحدي خدمة العملاء
+          تحدي السوشال ميديا
         </h1>
         <p className="mt-4 text-base sm:text-lg leading-relaxed text-muted-foreground">
           أهلاً بك في تحدي خدمة العملاء! قم بسحب كل تعليق وإسقاطه على الماكرو (الرد)
@@ -320,13 +326,34 @@ function Welcome({ onStart }: { onStart: () => void }) {
           <Feature icon="⚡" title="ردود فورية" desc="تغذية راجعة لحظية" />
           <Feature icon="🏆" title="شهادة" desc="عند إكمال التحدي" />
         </ul>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (trimmed) onStart(trimmed);
+          }}
+          className="mt-7 text-right"
+        >
+          <label htmlFor="player-name" className="mb-2 block text-sm font-bold text-foreground">
+            اكتب اسمك ليظهر على الشهادة
+          </label>
+          <input
+            id="player-name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="مثال: سارة العتيبي"
+            maxLength={40}
+            className="w-full rounded-2xl bg-secondary px-4 py-3 text-base text-foreground ring-1 ring-border outline-none transition focus:ring-2 focus:ring-primary"
+          />
         <button
-          onClick={onStart}
+          type="submit"
+          disabled={!trimmed}
           className="mt-8 inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-black text-primary-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
           style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-elegant)" }}
         >
           ابدأ التحدي ←
         </button>
+        </form>
       </div>
     </main>
   );
@@ -343,11 +370,13 @@ function Feature({ icon, title, desc }: { icon: string; title: string; desc: str
 }
 
 function Done({
+  name,
   score,
   total,
   attempts,
   onRetry,
 }: {
+  name: string;
   score: number;
   total: number;
   attempts: number;
@@ -416,11 +445,15 @@ function Done({
               شهادة إتمام
             </p>
             <h3 className="mt-2 text-2xl sm:text-3xl font-black text-foreground">
-              تحدي خدمة العملاء
+              تحدي السوشال ميديا
             </h3>
-            <p className="mt-6 text-sm text-muted-foreground">تُمنح هذه الشهادة تقديراً لإتمام</p>
+            <p className="mt-6 text-sm text-muted-foreground">تُمنح هذه الشهادة إلى</p>
+            <p className="mt-2 text-2xl sm:text-3xl font-black text-primary">
+              {name || "—"}
+            </p>
+            <p className="mt-4 text-sm text-muted-foreground">تقديراً لإتمام</p>
             <p className="mt-1 text-lg sm:text-xl font-black text-foreground">
-              تدريب الردود الجاهزة (الماكرو) لخدمة عملاء تمارا
+              تدريب الردود الجاهزة (الماكرو) لفريق السوشال ميديا في تمارا
             </p>
             <div className="mx-auto my-6 h-px w-32 bg-border" />
             <div className="grid grid-cols-3 gap-4 text-xs sm:text-sm">
@@ -438,7 +471,7 @@ function Done({
               </div>
             </div>
             <p className="mt-8 text-[11px] text-muted-foreground">
-              أكاديمية تمارا لخدمة العملاء — Tamara Customer Care Academy
+              أكاديمية تمارا للسوشال ميديا — Tamara Social Media Academy
             </p>
           </div>
         </div>
