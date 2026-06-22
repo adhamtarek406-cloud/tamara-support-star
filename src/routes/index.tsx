@@ -5,10 +5,10 @@ import confetti from "canvas-confetti";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "تحدي السوشال ميديا — تمارا" },
-      { name: "description", content: "لعبة تفاعلية لتدريب فريق السوشال ميديا على اختيار الرد الصحيح." },
-      { property: "og:title", content: "تحدي السوشال ميديا — تمارا" },
-      { property: "og:description", content: "اسحب كل تعليق على الماكرو الصحيح وأكمل التحدي." },
+      { title: "Social Media Challenge — Tamara" },
+      { name: "description", content: "Interactive training for the social media team to pick the right macro reply." },
+      { property: "og:title", content: "Social Media Challenge — Tamara" },
+      { property: "og:description", content: "Drag each customer comment onto the correct macro reply and complete the challenge." },
     ],
   }),
   component: TamaraChallenge,
@@ -137,7 +137,7 @@ function TamaraChallenge() {
         <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
           {/* Comment card (draggable) */}
           <div className="order-1">
-            <h2 className="mb-3 text-sm font-bold text-muted-foreground">تعليق العميل</h2>
+            <h2 className="mb-3 text-sm font-bold text-muted-foreground">Customer comment</h2>
             <article
               draggable
               onDragStart={(e) => {
@@ -157,18 +157,18 @@ function TamaraChallenge() {
                   ع
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs text-muted-foreground">عميل</p>
-                  <p className="text-sm font-bold text-foreground">سؤال #{index + 1}</p>
+                  <p className="text-xs text-muted-foreground">Customer</p>
+                  <p className="text-sm font-bold text-foreground">Question #{index + 1}</p>
                 </div>
                 <span className="ms-auto rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
-                  اسحب للرد
+                  Drag to reply
                 </span>
               </div>
               <p className="text-base sm:text-lg leading-relaxed text-foreground">
                 {currentPair.comment}
               </p>
               <p className="mt-4 text-xs text-muted-foreground">
-                💡 على الجوال: اضغط على الرد الصحيح مباشرة.
+                💡 On mobile: just tap the correct reply.
               </p>
             </article>
           </div>
@@ -176,7 +176,7 @@ function TamaraChallenge() {
           {/* Macro options (drop targets / clickable) */}
           <div className="order-2">
             <h2 className="mb-3 text-sm font-bold text-muted-foreground">
-              الردود الجاهزة (الماكرو) — اختر الأنسب
+              Macro replies — pick the best one
             </h2>
             <ul className="space-y-3">
               {macroOptions.map((opt) => {
@@ -262,10 +262,10 @@ function Header({
         <TamaraLogo className="h-9 w-9 shrink-0" />
         <div className="min-w-0">
           <p className="truncate text-base font-black text-foreground sm:text-lg">
-            تحدي السوشال ميديا
+            Social Media Challenge
           </p>
           <p className="truncate text-xs text-muted-foreground">
-            {name ? `أهلاً ${name} — تمارا` : "تدريب تفاعلي — تمارا"}
+            {name ? `Welcome, ${name} — Tamara` : "Interactive training — Tamara"}
           </p>
         </div>
       </div>
@@ -274,7 +274,7 @@ function Header({
           <span>
             {index + 1} / {total}
           </span>
-          <span className="text-primary">صحيحة من أول محاولة: {firstTryCorrect}</span>
+          <span className="text-primary">First-try correct: {firstTryCorrect}</span>
         </div>
         <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
           <div
@@ -312,19 +312,19 @@ function Welcome({ onStart }: { onStart: (name: string) => void }) {
           <span className="text-2xl font-black tracking-tight text-foreground">tamara.</span>
         </div>
         <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
-          تدريب فريق السوشال ميديا
+          Social Media Team Training
         </span>
         <h1 className="mt-4 text-3xl sm:text-4xl font-black leading-tight text-foreground">
-          تحدي السوشال ميديا
+          Social Media Challenge
         </h1>
         <p className="mt-4 text-base sm:text-lg leading-relaxed text-muted-foreground">
-          أهلاً بك في تحدي خدمة العملاء! قم بسحب كل تعليق وإسقاطه على الماكرو (الرد)
-          الصحيح والمناسب له.
+          Welcome to the challenge! Drag each customer comment and drop it onto the
+          correct macro (reply) that best fits.
         </p>
         <ul className="mt-6 grid gap-3 text-right text-sm sm:grid-cols-3">
-          <Feature icon="🎯" title="14 موقف" desc="تعليقات عملاء حقيقية" />
-          <Feature icon="⚡" title="ردود فورية" desc="تغذية راجعة لحظية" />
-          <Feature icon="🏆" title="شهادة" desc="عند إكمال التحدي" />
+          <Feature icon="🎯" title="14 scenarios" desc="Real customer comments" />
+          <Feature icon="⚡" title="Instant feedback" desc="Know right away" />
+          <Feature icon="🏆" title="Certificate" desc="On completion" />
         </ul>
         <form
           onSubmit={(e) => {
@@ -334,14 +334,14 @@ function Welcome({ onStart }: { onStart: (name: string) => void }) {
           className="mt-7 text-right"
         >
           <label htmlFor="player-name" className="mb-2 block text-sm font-bold text-foreground">
-            اكتب اسمك ليظهر على الشهادة
+            Enter your name to appear on the certificate
           </label>
           <input
             id="player-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="مثال: سارة العتيبي"
+            placeholder="e.g. Sara Alotaibi"
             maxLength={40}
             className="w-full rounded-2xl bg-secondary px-4 py-3 text-base text-foreground ring-1 ring-border outline-none transition focus:ring-2 focus:ring-primary"
           />
@@ -351,7 +351,7 @@ function Welcome({ onStart }: { onStart: (name: string) => void }) {
           className="mt-8 inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-black text-primary-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
           style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-elegant)" }}
         >
-          ابدأ التحدي ←
+          Start Challenge →
         </button>
         </form>
       </div>
