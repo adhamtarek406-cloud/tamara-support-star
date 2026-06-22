@@ -5,9 +5,9 @@ import confetti from "canvas-confetti";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "تحدي خدمة العملاء — تمارا" },
-      { name: "description", content: "لعبة تفاعلية لتدريب فريق خدمة العملاء على اختيار الرد الصحيح." },
-      { property: "og:title", content: "تحدي خدمة العملاء — تمارا" },
+      { title: "تحدي السوشال ميديا — تمارا" },
+      { name: "description", content: "لعبة تفاعلية لتدريب فريق السوشال ميديا على اختيار الرد الصحيح." },
+      { property: "og:title", content: "تحدي السوشال ميديا — تمارا" },
       { property: "og:description", content: "اسحب كل تعليق على الماكرو الصحيح وأكمل التحدي." },
     ],
   }),
@@ -46,6 +46,7 @@ type Screen = "welcome" | "game" | "done";
 
 function TamaraChallenge() {
   const [screen, setScreen] = useState<Screen>("welcome");
+  const [playerName, setPlayerName] = useState("");
   const [order, setOrder] = useState<number[]>(() => shuffle(PAIRS.map((p) => p.id)));
   const [index, setIndex] = useState(0);
   const [attempts, setAttempts] = useState(0);
@@ -70,7 +71,8 @@ function TamaraChallenge() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPair.id]);
 
-  const start = () => {
+  const start = (name?: string) => {
+    if (name !== undefined) setPlayerName(name);
     setOrder(shuffle(PAIRS.map((p) => p.id)));
     setIndex(0);
     setAttempts(0);
@@ -125,12 +127,12 @@ function TamaraChallenge() {
 
   if (screen === "welcome") return <Welcome onStart={start} />;
   if (screen === "done")
-    return <Done score={firstTryCorrect} total={total} attempts={attempts} onRetry={start} />;
+    return <Done name={playerName} score={firstTryCorrect} total={total} attempts={attempts} onRetry={() => start(playerName)} />;
 
   return (
     <main className="min-h-screen" style={{ background: "var(--gradient-soft)" }}>
       <div className="mx-auto max-w-5xl px-4 py-6 sm:py-10">
-        <Header index={index} total={total} firstTryCorrect={firstTryCorrect} />
+        <Header index={index} total={total} firstTryCorrect={firstTryCorrect} name={playerName} />
 
         <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
           {/* Comment card (draggable) */}
